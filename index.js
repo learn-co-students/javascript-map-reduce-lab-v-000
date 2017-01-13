@@ -9001,18 +9001,18 @@ const issues = [
   }
 ];
 
-var issuesWithUpdatedApiUrl = issues.map(function(item){
-  Object.keys(item).forEach(function(key){
-    var value = item[key];
-    if(typeof(value)=="string" && value.search('api.github.com')>0)
-    {value.replace('api.github.com',"api-v2.github.com");
-      return item[key]=value;}
-    else {return item[key]=value;}
-  })
-});
+var issuesWithUpdatedApiUrl = issues.map(function(issue){
+  .map(issue => Object.assign({}, issue, {
+    url: issue.url.replace('api.github.com', 'api-v2.github.com')
+  }));
 
-var commentCountAcrossIssues = issues.reduce(function(array, current){
-  return array.push(current.comments_count);
-  },[]).reduce(function(result, number){
-    return result + number;
-  },0);
+var commentCountAcrossIssues = issues
+  .map(issue => issue.comments_count)
+  .reduce((total, count) => total + count, 0);
+
+var nonAutomaticIssues = issues.reduce(
+  (all, curr) => {
+    var auto = curr.body.includes("This pull request has been automatically created by learn.co.");
+    return all = !auto ==true ? all.push(issue) : ;
+  }
+)
