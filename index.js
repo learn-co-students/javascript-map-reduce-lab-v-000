@@ -9014,4 +9014,6 @@ var comment_count = issues.map(function (issue) { return issue.comments_count })
 
 var commentCountAcrossIssues = comment_count.reduce(function(sum, count) { return sum + count; }, 0);
 
-var openIssues = issues.map(function (issue) { if (issue.hasOwnProperty("state") && issue.state == "open") return issue });
+var openIssues = issues.filter(function (issue) { if (issue.hasOwnProperty("state") && issue.state == "open") return issue });
+
+var nonAutomaticIssues = issues.filter(function (issue) { if (issue.body != "This pull request has been automatically created by learn.co.") return issue });

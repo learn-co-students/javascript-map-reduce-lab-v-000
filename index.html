@@ -35,5 +35,12 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script>mocha.setup('bdd');</script>
     <script src="test/index-test.js"></script>
+    <script>
+      var table = document.getElementById("results");
+      nonAutomaticIssues.forEach(function(issue) {
+        function makeCell(val) { return "<td>" + val + "</td>" }
+        table.innerHTML = issues.map(function(issue) { return "<tr>" + makeCell(issue["body"]) + makeCell(issue["created_at"]) + makeCell(issue["state"]) + "</tr>" ; }).join()
+      });
+    </script>
   </body>
 </html>
