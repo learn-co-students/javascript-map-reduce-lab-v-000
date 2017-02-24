@@ -9005,14 +9005,13 @@ function changeUrl(url) {
   return url.replace("api.github.com", "api-v2.github.com")
 }
 
-var issuesWithUpdatedApiUrl = issues.map((issue) => {
-  return Object.assign( {}, issue, changeUrl(url) )
-});
-
-
-var test2 = issues.map(function (obj) {
-  return Object.assign( {}, obj, {
-    url: obj.url.replace("api.github.com", "api-v2.github.com");
+var issuesWithUpdatedApiUrl = issues.map(function (issue) {
+  return Object.assign({}, issue, { url: changeUrl(issue.url)
   });
-});
+})
 
+var comment_count = issues.map(function (issue) { return issue.comments_count })
+
+var commentCountAcrossIssues = comment_count.reduce(function(sum, count) { return sum + count; }, 0);
+
+var openIssues = issues.map(function (issue) { if (issue.hasOwnProperty("state") && issue.state == "open") return issue });
