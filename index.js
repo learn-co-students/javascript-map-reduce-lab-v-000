@@ -9016,7 +9016,7 @@ const openIssues = issues.reduce((openIssues, issue) => {
   }
 
   return openIssues;
-});
+}, []);
 
 const nonAutomaticIssues = issues.reduce((totalIssues, issue) => {
   if (!issue.body.includes('automatically created by learn.co')) {
@@ -9033,4 +9033,4 @@ $tbody.innerHTML = nonAutomaticIssues
     <td>${issue.created_at}</td>
     <td>${issue.state}</td>
    </tr>`
-  );
+ ).join('');
