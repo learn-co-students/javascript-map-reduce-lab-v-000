@@ -9000,3 +9000,80 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+const issuesWithUpdatedApiUrl = (reduceIssues(issues, swapIssueUrl));
+
+function reduceIssues(collection, callback, initialValue) {
+  let value = initialValue;
+  let result = [];
+  collection.forEach((unit, index) => {
+    result.push(callback(unit, collection, initialValue));
+  });
+  return result;
+}
+
+function swapIssueUrl(issue, collection) {
+  for (var i = collection.length - 1; i >= 0; i--) {
+  return Object.assign({}, issue, {
+    url: 'api-v2.github.com',
+    });
+  }
+}
+
+const commentCountAcrossIssues = (reduceCommentCounts(issues, countComments, 0));
+
+function reduceCommentCounts(collection, callback, initialValue) {
+  let result = initialValue;
+  collection.forEach((unit, index) => {
+    result = callback(unit, collection, initialValue);
+  });
+  return result;
+}
+
+function countComments(issue, collection){
+  let commentCount = 0; 
+  for(var i = 0; i< collection.length; i++) {
+    commentCount = commentCount + collection[i].comments_count; 
+   }
+   return commentCount;
+}
+
+const openIssues = (reduceOpenIssues(issues, reduceOpenIssues, 0));
+
+function reduceOpenIssues(collection, callback, initialValue){
+  let result = [];
+   for (var i = collection.length - 1; i >= 0; i--) {
+    if (collection[i].state === 'open'){
+      result.push(collection[i]);
+    }
+    return result;
+  }
+}
+
+const nonAutomaticIssues = (reduceAutomaticIssues(issues, reduceAutomaticIssues, 0));
+
+function reduceAutomaticIssues(collection, callback, initialValue){
+  let result = [];
+   for (var i = collection.length - 1; i >= 0; i--) {
+    if (collection[i].body === ""){
+      result.push(collection[i]);
+    }
+    return result;
+  }
+}
+
+const htmlRows = nonAutomaticIssues.map(createRow);
+
+function createRow(issue){
+  let row = "<tr><td>"+ issue.body + "</td><td>" + issue.created_at + "</td><td>" + issue.state + "</td></tr>";
+  return row;
+}
+
+const publishRows = publish(htmlRows);
+
+function publish(rows){
+  let htmlString = rows.join("");
+  document.getElementById('results').innerHTML = htmlString;
+}
+
+ 
