@@ -1,3 +1,4 @@
+
 const issues = [
   {
     "body": "Instructions say GET /team and POST /newteam. Rspec wants GET/newteam and POST/team.",
@@ -9000,3 +9001,42 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+var  issuesWithUpdatedApiUrl = issues.map(issue => {
+      return Object.assign({}, issue, {url: issue.url.replace('api.github.com', 'api-v2.github.com')})
+})
+
+var commentCountAcrossIssues = issues.reduce((acc, issue) => {return issue.comments_count + acc}, 0)
+
+var openIssues = issues.reduce((array, issue) => {
+  if (issue.state === "open"){
+    array.push(issue)
+  }
+  return array
+}, [])
+
+var nonAutomaticIssues = issues.reduce((array, issue) => {
+  if (issue.body != "This pull request has been automatically created by learn.co."){
+    array.push(issue)
+  }
+  return array
+}, [])
+
+nonAutomaticIssues.map((issue) => {
+  var newRow = document.querySelector('tbody').insertRow()
+  newRow.insertCell().innerHTML = issue.body
+  newRow.insertCell().innerHTML = issue.created_at
+  newRow.insertCell().innerHTML = issue.state
+})
+
+
+// const $tbody = document.getElementById('results');
+// $tbody.innerHTML = nonAutomaticIssues
+//   .map(issue => `<tr>
+//     <td>${issue.body}</td>
+//     <td>${issue.created_at}</td>
+//     <td>${issue.state}</td>
+//     </tr>`
+//   )
+//   .join('');
