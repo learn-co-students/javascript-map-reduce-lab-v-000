@@ -9000,3 +9000,44 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+var issuesWithUpdatedApiUrl = issues.map(i => 
+  Object.assign({}, i, {url: i.url.replace('api', 'api-v2')})
+)
+
+var commentCountAcrossIssues = issues.reduce((sum, i) => sum + i.comments_count, 0)
+
+function checkOpenIssues(i) {
+ return i.state === 'open'
+}
+
+var openIssues = issues.filter(checkOpenIssues)
+
+function checkAutoIssues(i) {
+ return i.body !== 'This pull request has been automatically created by learn.co.'
+}
+
+var nonAutomaticIssues = issues.filter(checkAutoIssues)
+
+/* 
+    expect($rows.length).toBeGreaterThan(0) // 651
+    expect($rows.length).toEqual(nonAutomaticIssues.length) // 651
+    unsure as why to test failing as length matches for both tests
+*/
+// mappedItems = nonAutomaticIssues.map(i => 
+// `<tr>
+// <td>${i.body}</td>
+// <td>${i.created_at}</td>
+// <td>${i.state}</td>
+// </tr>`).join('')
+
+// $('#results').append(mappedItems)
+
+var $tbody = document.getElementById('results')
+$tbody.innerHTML = nonAutomaticIssues
+  .map(i => `<tr>
+    <td>${i.body}</td>
+    <td>${i.created_at}</td>
+    <td>${i.state}</td>
+    </tr>`
+  ).join('')
