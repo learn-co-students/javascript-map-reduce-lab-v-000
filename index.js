@@ -1,3 +1,7 @@
+
+
+
+
 const issues = [
   {
     "body": "Instructions say GET /team and POST /newteam. Rspec wants GET/newteam and POST/team.",
@@ -9000,3 +9004,72 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+var issuesWithUpdatedApiUrl = issues.map(issue => {
+  return Object.assign({}, issue, {
+    url: issue.url.replace("api.github.com", "api-v2.github.com")
+  });
+})
+
+var commentCountAcrossIssues = issues.reduce((totalComments, issue) => {
+  return totalComments + issue.comments_count
+}, 0)
+
+// var openIssues = issues.filter(issue => {
+//   return issue.state === 'open'
+// })
+
+var openIssues = issues.reduce((openIssues, issue) => {
+  if(issue.state === 'open'){
+    return [...openIssues, issue]
+  }
+
+  return openIssues
+}, [])
+
+
+// var nonAutomaticIssues = issues.filter(issue => {
+//   return issue.body !== "This pull request has been automatically created by learn.co."
+// })
+
+var nonAutomaticIssues = issues.reduce((totalIssues, issue) => {
+  var isAutomaticIssue = issue.body.includes('automatically created by learn.co.')
+
+  if(!isAutomaticIssue){
+    totalIssues.push(issue)
+  }
+
+  return totalIssues
+}, [])
+
+const tbody = document.getElementById('results')
+tbody.innerHTML = nonAutomaticIssues.map(issue =>
+  `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+  </tr>`
+).join('')
+
+// var endResults = nonAutomaticIssues.map(issue => {
+//   return [
+//     issue.body,
+//     issue.created_at,
+//     issue.state
+//   ];
+// })
+//
+// function print(issues){
+//   for (let i = 0, l = issues.length; i < l; i++){
+//     var issue = issues[i];
+//
+//     $('#results').append(document.createElement('tr'))
+//
+//     for (let j = 0, k = 3; j < k; j++){
+//       $(`#results tr:nth-child(${i + 1})`).append(document.createElement('td'))
+//       $(`tr:nth-child(${i + 1}) td:nth-child(${j + 1})`).innerHTML = issue[j]
+//     }
+//   }
+// }
+//
+// (print(endResults))
