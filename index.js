@@ -9000,3 +9000,55 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+  var issuesWithUpdatedApiUrl = issues.map(function(issue) {
+    var changedIssue = Object.assign({}, issue)
+    var splitIssue = changedIssue.url.split('/');
+    if(splitIssue[2] === "api.github.com") {
+
+      splitIssue[2] = "api-v2.github.com";
+
+      var unsplit = splitIssue.join('/');
+      changedIssue.url = unsplit;
+    }
+   return changedIssue;
+});
+
+
+var commentCountAcrossIssues = issues.map(issue =>{
+  return issue.comments_count
+
+}).reduce(function(acc, val) {
+  return acc+val;
+
+}, 0);
+
+//this function appears to be recursive. It takes the accellerator and if the issue.state value is open adds it in the openIssues mapped array.
+//Then it returns the updated function. The ... is a spread operator.
+var openIssues = issues.reduce((openIssues, issue) => {
+  if (issue.state === 'open') {
+    return [...openIssues, issue]
+  }
+  return openIssues;
+})
+
+
+var nonAutomaticIssues = issues.reduce((nonAutomaticIssues, issue) => {
+    var splitBody = issue.body.split(' ')
+    if(!splitBody.includes('automatically')) {
+      return [...nonAutomaticIssues, issue]
+    }
+    return nonAutomaticIssues;
+});
+
+var code = document.getElementById('results');
+code.innerHTML = nonAutomaticIssues.map(
+  issue =>`
+  <tr>
+  <td>${issue.body}</td>
+  <td>${issue.created_at}</td>
+  <td>${issue.state}</td>
+  </tr>`
+
+).join('');
