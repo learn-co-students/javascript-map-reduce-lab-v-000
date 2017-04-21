@@ -9011,20 +9011,27 @@ const commentCountAcrossIssues = issues.reduce(
   (total, issue) => total + issue['comments_count'], 0
 );
 
-const openIssues = issues.filter(issue => issue.state === 'open')
+const openIssues = issues.reduce((openCollection, issue) => {
+  if (issue.state === 'open') {
+    openCollection.push(issue)
+  }
 
-const nonAutomaticIssues = issues.filter(issue => {
-  return !issue.body.includes('created by learn.co')
-})
+  return openCollection
+}, [])
+
+const nonAutomaticIssues = issues.reduce((collection, issue) => {
+  if (!issue.body.includes('created by learn.co')) collection.push(issue)
+  return collection
+}, [])
 
 const $results = document.getElementById('results')
 
 $results.innerHTML = nonAutomaticIssues.map(issue => {
   return(
-    "<tr>" +
-      `<td>${issue.body}</td>` +
-      `<td>${issue.created_at}</td>` +
-      `<td>${issue.state}</td>` +
-    "</tr>"
+    `<tr>
+      <td>${issue.body}</td>
+      <td>${issue.created_at}</td>
+      <td>${issue.state}</td>
+    </tr>`
   )
 }).join('');
