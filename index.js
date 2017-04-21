@@ -9000,3 +9000,82 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+// const issuesWithUpdatedApiUrl = issues.map(function(issue) {
+//   return Object.assign({}, issue, {
+//     url: issue.url.replace("api.github.com", "api-v2.github.com")
+//   })
+// })
+
+const issuesWithUpdatedApiUrl = issues.map(
+  issue => Object.assign({}, issue, {
+    url: issue.url.replace("api.github.com", "api-v2.github.com")
+  })
+)
+
+// const commentCountAcrossIssues = issues.map(function(issue) {
+//   return issue.comments_count
+// }).reduce(function(total, count) {
+//   return total + count
+// }, 0)
+
+const commentCountAcrossIssues = issues.map(
+  issue => issue.comments_count
+).reduce(
+  (total, count) => total + count, 0
+)
+
+// const openIssues = issues.map(function(issue) {
+//   if(issue.state === "open") {
+//     return Object.assign({}, issue)
+//   }
+// }).filter(function(element) {
+//   return element !== undefined
+// })
+
+const openIssues = issues.reduce((openIssues, issue) => {
+  if (issue.state === "open") {
+    return [...openIssues, issue]
+  }
+
+  return openIssues
+}, [])
+
+// const nonAutomaticIssues = issues.map(function(issue) {
+//   if(issue.body !== "This pull request has been automatically created by learn.co.") {
+//     return Object.assign({}, issue)
+//   }
+// }).filter(function(element) {
+//   return element !== undefined
+// })
+
+const nonAutomaticIssues = issues.reduce((totalIssues, issue) => {
+  const isAutomaticIssue = issue.body.includes('automatically created by learn.co')
+
+  if (!isAutomaticIssue) {
+    totalIssues.push(issue)
+  }
+
+  return totalIssues
+}, [])
+
+// nonAutomaticIssues.forEach(element => {
+//   let tableBody = document.getElementById('results')
+//   let row = tableBody.insertRow()
+//   var bodyCell = row.insertCell(0)
+//   var dateCell = row.insertCell(1)
+//   var stateCell = row.insertCell(2)
+//
+//   bodyCell.innerHTML = `${element.body}`
+//   dateCell.innerHTML = `${element.created_at}`
+//   stateCell.innerHTML = `${element.state}`
+// })
+
+const $tbody =  document.getElementById('results')
+$tbody.innerHTML = nonAutomaticIssues.map(
+    issue => `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+    </tr>`
+  ).join('')
