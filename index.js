@@ -9015,3 +9015,9 @@ var openIssues = issues.map(function(issue) {
   }
 }).filter((element) => element !== undefined);
 
+var nonAutomaticIssues = issues.reduce(function(human, issue) {
+  if(issue.body !== "This pull request has been automatically created by learn.co.") {
+    human.push(issue);
+  }
+  return human;
+}, []);
