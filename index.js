@@ -9000,3 +9000,70 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+const issuesWithUpdatedApiUrl = issues.map(issue => {
+  const oldUrl = issue.url.includes('api.github.com')
+  return Object.assign({}, issue, {
+    url: oldUrl ? issue.url.replace('api.github.com', 'api-v2.github.com') : url 
+  })
+})
+
+
+// console.log(issuesWithUpdatedApiUrl[0])
+// console.log(issues[0])
+
+// const commentCountAcrossIssues = issues.map(function (issue) {
+//   issue.comments_count
+// }).reduce(function (total, count) {
+//   return total + count
+// }, 0)
+
+const commentCountAcrossIssues = issues.map(issue => issue.comments_count).reduce((total, count) => total + count)
+
+// console.log(commentCountAcrossIssues)
+
+const openIssues = issues.reduce((acc, issue) => {
+  if (issue.state === 'open') {
+    return [...acc, issue];
+  }
+  return acc 
+}, [])
+// acc is a new array of objs
+
+// console.log(openIssues)
+
+const nonAutomaticIssues = issues.reduce((acc, issue) => {
+  if (!issue.body.includes('This pull request has been automatically created by learn.co.')) {
+    return [...acc, issue]
+  }
+
+  return acc 
+}, [])
+
+// console.log(nonAutomaticIssues)
+
+//element.appendChild(tableRow)
+
+const element = document.getElementById('results')
+
+element.innerHTML = nonAutomaticIssues.map(issue =>
+  `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+  </tr>`
+).join()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
