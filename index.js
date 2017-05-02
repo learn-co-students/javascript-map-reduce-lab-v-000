@@ -9000,3 +9000,40 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+const issuesWithUpdatedApiUrl = issues.map((issue) => {
+  const newURL = issue.url.replace('api.github', 'api-v2.github');
+  return Object.assign({}, issue, { url: newURL });
+});
+
+const commentCountAcrossIssues = issues.reduce((count, issue) => {
+  return count + issue.comments_count;
+}, 0);
+
+// guess I could just use Array.prototype.filter(), but this is a lab about
+// map + reduce, so whatevs
+const openIssues = issues.reduce((filtered, issue) => {
+  if (issue.state === "open") return [...filtered, issue];
+  return filtered;
+}, []);
+
+// again, could use filter
+const nonAutomaticIssues = issues.reduce((filtered, issue) => {
+  if (issue.body !== "This pull request has been automatically created by learn.co.") {
+    return [...filtered, issue];
+  }
+  return filtered;
+}, []);
+
+window.addEventListener('load', () => {
+  const table = document.getElementById('results');
+  const rows = nonAutomaticIssues.forEach((issue) => {
+    const row   = table.appendChild(document.createElement('tr'));
+    const body  = row.appendChild(document.createElement('td'));
+    const date  = row.appendChild(document.createElement('td'));
+    const state = row.appendChild(document.createElement('td'));
+    body.innerHTML  = issue.body;
+    date.innerHTML  = issue.created_at;
+    state.innerHTML = issue.state;
+  });
+});
