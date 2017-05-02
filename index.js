@@ -9026,3 +9026,14 @@ const nonAutomaticIssues = issues.reduce((nonAutomaticIssues, issue) => {
 }, [])
 
 const tbody = document.getElementById('results')
+
+var resultsHtmlArray = nonAutomaticIssues.map((issue) =>
+  `
+  <tr>
+  <td>${issue.body}</td>
+  <td>${issue.created_at}</td>
+  <td>${issue.state}</td>
+  </tr>`
+)
+
+tbody.innerHTML = resultsHtmlArray.join('')
