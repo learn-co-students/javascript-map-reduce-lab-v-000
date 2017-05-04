@@ -9000,3 +9000,83 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+var issuesWithUpdatedApiUrl = issues.map(function (block) {
+  return Object.assign({}, block, {
+    url: block.url.replace(/api.github.com/, 'api-v2.github.com')
+  });
+});
+
+// var commentCountAcrossIssues = issues.map(function (block) {
+//   return block.comments_count
+// }).reduce(function (numb, total) {
+//     return total + numb
+// }, 0);
+
+var commentCountAcrossIssues = issues.reduce(function (total, block) {
+  return total + block.comments_count
+}, 0)
+
+// var openIssues = issues.map(function (issue) {
+//   if (issue.state === "open") {
+//     return issue
+//   }
+// })
+
+var openIssues = issues.reduce(function (array, block) {
+  if (block.state === "open") {
+    array.push(block)
+  }
+  return array
+}, [])
+
+var nonAutomaticIssues = issues.reduce(function (array, block) {
+  if (block.body !== "This pull request has been automatically created by learn.co.") {
+    array.push(block)
+  }
+  return array
+}, [])
+
+// nonAutomaticIssues.map(function (issue) {
+//   // append issue.body
+//   // $('#results') gives us the results table body
+//   // $('#results').append('<tr><td>yo</td></tr>')
+//   // $('#results').append(`'<tr><td>${body}</td><td>${date}</td><td>${state}</td></tr>`)
+
+//   let table = $('#results')
+//   let row = document.createElement('tr')
+//   let cell = document.createElement("td")
+
+//   let body = document.createElement('td').innerHTML = "stuff1"
+//   let date = document.createElement('td').innerHTML = "stuff2"
+//   let state = document.createElement('td').innerHTML = "stuff3"
+
+//   row.appendChild(body, date, state)
+
+//   // let body = issue.body
+//   // let date = issue.created_at
+//   // let state = issue.state
+//   return 
+// })
+
+nonAutomaticIssues.map(function (issue) {
+  // let body = document.createElement('td').innerHTML = issue.body
+  // let date = document.createElement('td').innerHTML = issue.created_at
+  // let state = document.createElement('td').innerHTML = issue.state
+
+  let table = $('#results')
+  let row = document.createElement('tr');
+
+  row.insertCell(0).innerHTML = issue.body
+  row.insertCell(1).innerHTML = issue.created_at
+  row.insertCell(2).innerHTML = issue.state
+
+
+
+  // let body = document.createElement('td').innerHTML = issue.body
+  // let date = document.createElement('td').innerHTML = issue.created_at
+  // let state = document.createElement('td').innerHTML = issue.state
+
+  //   $('#results').append(`'<tr><td>${body}</td><td>${date}</td><td>${state}</td></tr>`)
+})
