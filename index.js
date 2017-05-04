@@ -9060,23 +9060,24 @@ var nonAutomaticIssues = issues.reduce(function (array, block) {
 //   return 
 // })
 
-nonAutomaticIssues.map(function (issue) {
+let table = document.getElementById('results')
+
+table.innerHTML = nonAutomaticIssues.map(function (issue) {
   // let body = document.createElement('td').innerHTML = issue.body
   // let date = document.createElement('td').innerHTML = issue.created_at
   // let state = document.createElement('td').innerHTML = issue.state
 
-  let table = $('#results')
-  let row = document.createElement('tr');
 
-  row.insertCell(0).innerHTML = issue.body
-  row.insertCell(1).innerHTML = issue.created_at
-  row.insertCell(2).innerHTML = issue.state
-
+  return `<tr>
+    <td> ${issue.body} </td>
+    <td> ${issue.created_at} </td>
+    <td> ${issue.state} </td>
+  </tr>`
 
 
   // let body = document.createElement('td').innerHTML = issue.body
   // let date = document.createElement('td').innerHTML = issue.created_at
   // let state = document.createElement('td').innerHTML = issue.state
 
-  //   $('#results').append(`'<tr><td>${body}</td><td>${date}</td><td>${state}</td></tr>`)
-})
+    // $('#results').innerHTML = (`'<tr><td>${body}</td><td>${date}</td><td>${state}</td></tr>`)
+}).join('')
