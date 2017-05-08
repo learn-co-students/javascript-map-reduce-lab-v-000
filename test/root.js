@@ -1,5 +1,5 @@
-global.expect = require('expect');
-global.cheerio = require('cheerio');
+const expect = require('expect');
+const cheerio = require('cheerio');
 
 const fs = require('fs');
 const jsdom = require('mocha-jsdom');
