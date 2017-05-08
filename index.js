@@ -9008,9 +9008,9 @@ const issues = [
 
 
 
-var issuesWithUpdatedApiUrl = issues.map((issue) => {
-  return  Object.assign({}, issue, {"url": issue['url'].slice(0, 11) + '-v2' + issue['url'].slice(11)})
-})
+var issuesWithUpdatedApiUrl = issues.map((issue) =>
+    Object.assign({}, issue, {"url": issue['url'].slice(0, 11) + '-v2' + issue['url'].slice(11)})
+)
 
 let comment_counts = issues.map(issue => {
   return issue.comments_count
@@ -9041,4 +9041,6 @@ let tableRows = nonAutomaticIssues.map((issue) => {
     return `<tr><td>${issue.body}</td><td>${issue.created_at}</td><td>${issue.state}</td></tr>`
 })
 
-document.getElementById("results").innerHTML = tableRows.join(" ")
+document.getElementById("results").innerHTML = nonAutomaticIssues.map((issue) =>
+     `<tr><td>${issue.body}</td><td>${issue.created_at}</td><td>${issue.state}</td></tr>`
+).join("");
