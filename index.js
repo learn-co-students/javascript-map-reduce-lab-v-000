@@ -9011,3 +9011,30 @@ var issuesWithUpdatedApiUrl = issues.map(function (issue) {
 
 var commentCountAcrossIssues = issues.map((issue) =>
    issue.comments_count).reduce((count, current) => count + current, 0);
+
+var openIssues = issues.reduce((all, issue) => {
+   if (issue.state === 'open') {
+     return [...all, issue];
+   }
+   return all;
+  },
+ []
+);
+
+var nonAutomaticIssues = issues.reduce((all, issue) => {
+   if (issue.body !== 'This pull request has been automatically created by learn.co.') {
+     return [...all, issue];
+   }
+   return all;
+  },
+ []
+);
+
+var tableBody = document.getElementById('results');
+tableBody.innerHTML = nonAutomaticIssues
+  .map(issue => `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+    </tr>`
+  ).join('');
