@@ -9011,7 +9011,6 @@ const issues = [
     return total += issue.comments_count;
   }, 0);
 
-
   var openIssues = issues.filter((issue) => {           //filter is select, NOT reject.
     return issue.state === "open"
   })
@@ -9019,7 +9018,6 @@ const issues = [
   var nonAutomaticIssues = issues.filter((issue) => {
     return !issue.body.includes("ly cr")
   })
-
 
   var $tbody = document.getElementById("results")
   results.innerHTML = nonAutomaticIssues.map(function(issue) {
