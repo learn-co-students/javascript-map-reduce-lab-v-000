@@ -9010,4 +9010,11 @@ const issuesWithUpdatedApiUrl = issues.map(function (issue){
   }
 })
 
-var commentCountAcrossIssues = 0
+var commentCountAcrossIssues = issues.reduce( (total, comments_count) => {
+  return total, 
+{}
+})
+
+var comments_count = issues.map(function (issue) {
+  return issue.comments_count
+})
