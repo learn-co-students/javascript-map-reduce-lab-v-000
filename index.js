@@ -9010,11 +9010,46 @@ const issuesWithUpdatedApiUrl = issues.map(function (issue){
   }
 })
 
-var commentCountAcrossIssues = issues.reduce( (total, comments_count) => {
-  return total, 
-{}
-})
+var commentCountAcrossIssues = issues.reduce(function (total, commentsCount) {
+  return total + commentsCount.comments_count;
+}, 0)
 
-var comments_count = issues.map(function (issue) {
+var commentsCount = issues.map(function (issue) {
   return issue.comments_count
 })
+
+var openIssues = issues.filter(function (issue){
+  if (issue.state === "open"){
+    return issue
+  }
+})
+
+var nonAutomaticIssues = issues.filter(function (issue){
+  if (issue.body !== "This pull request has been automatically created by learn.co."){
+    return issue
+  }
+})
+
+function display() {
+    var table = document.createElement("table");
+    for (var i=0; i<orderArray.length; i++) {
+        var row = table.insertRow();
+        for (var j=0; j<orderArray[i].length; j++) {
+            var cell = row.insertCell();
+            cell.appendChild(document.createTextNode(orderArray[i][j]));
+        }
+    }
+    return table;
+}
+
+const tableBody = document.getElementById('results');
+
+tableBody.innerHTML = nonAutomaticIssues.map(function (issue){ 
+   return `
+   <tr>
+   <td>${issue.body}</td>
+   <td>${issue.created_at}</td>
+   <td>${issue.state}</td>
+   </tr>`
+})
+  .join('');
