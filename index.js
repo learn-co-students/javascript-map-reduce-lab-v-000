@@ -9023,14 +9023,14 @@ var nonAutomaticIssues = issues.reduce((nonAutoIssue, issue) => {
   return nonAutoIssue;
 } ,[]);
 
-const $tbody = document.getElementById('results');
-$tbody.innerHTML = nonAutomaticIssues
-  .map(issue => `<tr>
+const $results = document.getElementById('results');
+
+$results.innerHTML = nonAutomaticIssues.map(issue =>
+  `<tr>
     <td>${issue.body}</td>
     <td>${issue.created_at}</td>
     <td>${issue.state}</td>
     </tr>`
-  )
-  .join('');
+  ).join('');
 
 // $results.innerHTML = "<tr><td>${issue.body}</td><td>${issue.created_at}</td><td>${issue.state}</td></tr>"
