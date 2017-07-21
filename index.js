@@ -9001,12 +9001,27 @@ const issues = [
   }
 ];
 
-var issuesWithUpdatedApiUrl = issues.map((issue) =>
+let issuesWithUpdatedApiUrl = issues.map((issue) =>
    Object.assign({}, issue, {
     url: issue.url.replace('api.github.com', 'api-v2.github.com')
   }))
 
-// const issuesWithUpdatedApiUrl = issues.map(issue =>
-//   Object.assign({}, issue, {
-//     url: issue.url.replace('api.github.com', 'api-v2.github.com')
-//   }));
+
+let commentCountAcrossIssues = issues.map((issue) => {
+    return issue.comments_count
+}).reduce((sum, issue) => {
+  return sum + issue
+}, 0)
+
+
+let openIssues = issues.reduce((issue) => {
+  if (issue.state === "open") {
+
+  }
+})
+
+
+let nonAutomaticIssues = issues.reduce((issue) => {
+  if (issue.body === "This pull request has been automatically created by learn.co.")
+
+})
