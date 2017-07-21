@@ -9014,14 +9014,26 @@ let commentCountAcrossIssues = issues.map((issue) => {
 }, 0)
 
 
-let openIssues = issues.reduce((issue) => {
+let openIssues = issues.reduce((newIssues, issue) => {
   if (issue.state === "open") {
-
+   newIssues.push(issue)
   }
-})
+  return newIssues
+}, [])
 
 
-let nonAutomaticIssues = issues.reduce((issue) => {
-  if (issue.body === "This pull request has been automatically created by learn.co.")
+let nonAutomaticIssues = issues.reduce((newAutomaticIssues, issue) => {
+  if (issue.body !== "This pull request has been automatically created by learn.co.") {
+    newAutomaticIssues.push(issue)
+  }
+  return newAutomaticIssues
+}, [])
 
-})
+const $tbody = document.getElementById('results');
+$tbody.innerHTML = nonAutomaticIssues.map(issue =>
+  `<tr>
+      <td>${issue.body}</td>
+      <td>${issue.created_at}</td>
+      <td>${issue.state}</td>
+    </tr>`
+  ).join('');
