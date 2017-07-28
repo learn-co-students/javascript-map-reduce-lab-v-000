@@ -9028,3 +9028,15 @@ let nonAutomaticIssues = issues.reduce(function(total,value){
   }
   return total.concat([]);
 },[]);
+
+nonAutomaticIssues.map(function(issue) {
+    let table = document.getElementById("results");
+    let row = table.insertRow(0);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    cell1.innerHTML = issue.body;
+    cell2.innerHTML = issue.created_at;
+    cell3.innerHTML = issue.state;
+    return row;
+});
