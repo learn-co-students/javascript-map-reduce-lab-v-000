@@ -9001,11 +9001,13 @@ const issues = [
   }
 ];
 
-var issuesWithUpdatedApiUrl = issues.map(function(issue) {
+/*var issuesWithUpdatedApiUrl = issues.map(function(issue) {
   let objCopy = Object.assign({}, issue)
   objCopy.url.replace('api.github.com', 'api-v2.github.com')
   return objCopy
-})
+}) */
+
+var issuesWithUpdatedApiUrl = issues.map(issue => Object.assign({}, issue, {url: issue.url.replace('api.github.com', 'api-v2.github.com')}))
 
 var commentCountAcrossIssues = issues.map(function(issue) {
   return issue.comments_count
@@ -9019,3 +9021,19 @@ var openIssues = issues.reduce(function(openIssues, issue) {
   }
   return openIssues
 }, [])
+
+var nonAutomaticIssues = issues.reduce((humanCreatedIssues, issue) => {
+  if (!(issue.body.includes('automatically created by learn.co'))) {
+    humanCreatedIssues.push(issue)
+  }
+  return humanCreatedIssues
+}, [])
+
+var $tbody = document.getElementById('results')
+$tbody.innerHTML = nonAutomaticIssues.map(issue =>
+  `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+  </tr>`
+  ).join('')
