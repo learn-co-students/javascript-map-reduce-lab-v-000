@@ -9000,3 +9000,17 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+var issuesWithUpdatedApiUrl = issues.map(function(issue) {
+  let objCopy = Object.assign({}, issue)
+  objCopy.url.replace('api.github.com', 'api-v2.github.com')
+  return objCopy
+})
+
+var commentCountAcrossIssues = issues.map(function(issue) {
+  return issue.comments_count
+}).reduce(function(total, count) {
+  return total + count
+}, 0)
+
+var openIssues =
