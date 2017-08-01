@@ -1,3 +1,22 @@
+// var issuesWithUpdatedApiUrl = issues.map(function(issue) {
+//   //use Object.assign to update url
+//   return Object.assign({}, issue, {
+//     url: issue.url.replace('api.github.com', 'api-v2.github.com')
+//   })
+// });
+
+// var issuesWithUpdatedApiUrl = [];
+
+// var commentCountAcrossIssues = 703;
+
+var commentCountAcrossIssues = issues.reduce(function(commentCount, issue) {
+  commentCount += issue.comments_count  
+
+  return commentCount;
+}, 0);
+
+// var openIssues = 
+
 const issues = [
   {
     "body": "Instructions say GET /team and POST /newteam. Rspec wants GET/newteam and POST/team.",
