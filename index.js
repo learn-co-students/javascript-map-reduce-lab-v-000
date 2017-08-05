@@ -9000,3 +9000,69 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+
+
+var issuesWithUpdatedApiUrl = issues.map((issue) => 
+  Object.assign({}, issue, {url: issue.url.replace('api.github.com', 'api-v2.github.com')}))
+
+var commentCountAcrossIssues = issues.reduce((total, issue) => total + issue.comments_count, 0)
+
+//both methods work below..see using the filter method.
+var openIssues = issues.reduce((openIssues, issue) => {
+  if (issue.state === 'open'){
+    return [...openIssues, issue]
+  }
+
+  return openIssues
+}, [])
+
+// var openIssues = issues.filter((issue) => issue.state === 'open')
+
+var nonAutomaticIssues = issues.reduce((humanIssues, issue) => {
+  if (!issue.body.includes('This pull request has been automatically created by learn.co.')) {
+    return [...humanIssues, issue]
+  }
+
+  return humanIssues
+}, [])
+
+
+const elements = document.getElementById('results');
+elements.innerHTML = nonAutomaticIssues.map(issue => `<tr> <td>${issue.body}</td> <td>${issue.created_at}</td> <td>${issue.state}</td> </tr>`).join('');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
