@@ -9028,13 +9028,13 @@ var nonAutomaticIssues = issues.reduce((humanIssues, issue) => {
   return humanIssues
 }, [])
 
-// const elements = getElementById('results');
-
-// elements.innerHTML = nonAutomaticIssues.map(issue =>
-//   '<tr> <td>${issue.body}</td> <td>${issue.created_at}</td> <td>${issue.state}</td> </tr>').join("");
-
 const elements = document.getElementById('results');
-elements.innerHTML = nonAutomaticIssues.map(issue => `<tr> <td>${issue.body}</td> <td>${issue.created_at}</td> <td>${issue.state}</td> </tr>`).join('');
+
+elements.innerHTML = nonAutomaticIssues.map(issue =>
+  '<tr> <td>${issue.body}</td> <td>${issue.created_at}</td> <td>${issue.state}</td> </tr>').join("");
+
+// const elements = document.getElementById('results');
+// elements.innerHTML = nonAutomaticIssues.map(issue => `<tr> <td>${issue.body}</td> <td>${issue.created_at}</td> <td>${issue.state}</td> </tr>`).join('');
 
 
 
