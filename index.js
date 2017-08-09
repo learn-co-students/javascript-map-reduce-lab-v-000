@@ -1,5 +1,4 @@
-const issues = [
-  {
+const issues = [{
     "body": "Instructions say GET /team and POST /newteam. Rspec wants GET/newteam and POST/team.",
     "created_at": "2016-03-31 16:23:13 UTC",
     "comments_count": 0,
@@ -4563,7 +4562,7 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/sinatra-nested-forms/issues/18"
   },
   {
-    "body": "This lab uses Jasmine to test, while the others were using Karma. It may be nice to have the lab's instructions include a line or two about what command to run once the lab is opened...otherwise it is a bit confusing. ",
+    "body": "This lab uses Jasmine to test, while the others were using Karma. It may be nice to have the lab's instructions include a line or two about what command to run once the lab is opened...erwise it is a bit confusing. ",
     "created_at": "2016-03-03 17:17:56 UTC",
     "comments_count": 0,
     "id": 138241685,
@@ -9000,3 +8999,41 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+
+
+const issuesWithUpdatedApiUrl = issues.map(issue => Object.assign({}, issue, {
+  url: issue.url.replace('api.github.com', 'api-v2.github.com')
+}));
+
+const commentCountAcrossIssues = issues.map(issue => issue.comments_count).reduce((total, count) => total + count, 0);
+
+
+const openIssues = issues.reduce((openIssues, issue) => {
+  if (issue.state === 'open') {
+    return [...openIssues, issue];
+  }
+  return openIssues;
+}, []);
+
+
+const nonAutomaticIssues = issues.reduce((totalIssues, issue) => {
+  const isAutomaticIssue = issue.body.includes('automatically created by learn.co');
+
+  if (!isAutomaticIssue) {
+    totalIssues.push(issue);
+  }
+
+  return totalIssues;
+}, []);
+
+
+const $tbody = document.getElementById('results');
+$tbody.innerHTML = nonAutomaticIssues
+  .map(issue => `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+    </tr>`)
+  .join('');
