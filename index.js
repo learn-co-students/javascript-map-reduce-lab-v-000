@@ -9059,7 +9059,7 @@ var nonAutomaticIssues = issues.reduce(function(nonAutomatic, issue) {
 
 
 var getTable = document.getElementById('results')
-getTable.innerHTML = nonAutomatic.map(function(issue) {
+getTable.innerHTML = nonAutomaticIssues.map(function(issue) {
   return `<tr>
   <td>${issue.body}</td>
   <td>${issue.created_at}</td>
