@@ -9000,3 +9000,69 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+var issuesWithUpdatedApiUrl = issues.map(function(issue) {
+  return Object.assign({}, issue, {
+    url: issue.url.replace('api.github.com', 'api-v2.github.com')
+  });
+})
+
+
+
+
+
+// no need for temporary variable
+var commentCountAcrossIssues = issues.map(function(issue) {
+  return issue.comments_count;
+
+}).reduce(function(total, current){
+  return total + current;
+
+}, 0);
+
+
+// [0, 1, 2, 3, 4].reduce(
+//   (accumulator, currentValue, currentIndex, array) => {
+//     return accumulator + currentValue;
+//   },
+//   10
+// );
+
+
+// var openIssues = issues.map(function(issue) {
+//   if (issue.state === "open") {
+//     return issue
+//   }
+// }).reduce(total, issue) {
+//
+// }
+
+var openIssues = issues.reduce(function(openIssues, issue){
+  if (issue.state === "open") {
+    openIssues.push(issue);
+  }
+  return openIssues;
+},  []);
+
+
+
+
+
+// filter out issues that were created automatically
+var nonAutomaticIssues = issues.reduce(function(nonAutomatic, issue) {
+  if (issue.body !== "This pull request has been automatically created by learn.co.") {
+    nonAutomatic.push(issue);
+  }
+  return nonAutomatic;
+}, [])
+
+
+var getTable = document.getElementById('results')
+getTable.innerHTML = nonAutomatic.map(function(issue) {
+  return `<tr>
+  <td>${issue.body}</td>
+  <td>${issue.created_at}</td>
+  <td>${issue.state}</td>
+  </tr>`
+}).join('')
