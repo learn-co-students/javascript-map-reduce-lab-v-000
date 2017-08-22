@@ -9002,7 +9002,25 @@ const issues = [
 ];
 
 
-// var issuesWithUpdatedApiUrl = issues.map(
-//   (issue) => Object.assign( {}, issue, issue.url.replace(/api.github.com/,'api-v2.github.com')
-//  )
-// )
+var issuesWithUpdatedApiUrl = issues.map(
+  (issue) => Object.assign( {}, issue, {
+    url: issue.url.replace(/api.github.com/,'api-v2.github.com')}
+ )
+)
+
+var commentCountAcrossIssues = issues.map(
+  (issue) => issue.comments_count)
+  .reduce( (a,b) => {return a + b}, 0 )
+
+var openIssues = issues.filter(
+  (issue) => { return issue.state === "yay" }
+)
+
+var nonAutomaticIssues = issues.filter(
+  (issue) => { return !issue.body.includes("automatically created by learn.co.") }
+)
+
+nonAutomaticIssues.map(
+  (issue) =>{document.getElementById('results').innerHTML += `<td>${issue.body}</td> <td>${issue.created_at}</td> <td>${issue.state}</td>`
+ }
+)
