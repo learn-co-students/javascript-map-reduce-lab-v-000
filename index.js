@@ -9039,8 +9039,7 @@ body.innerHTML = nonAutomaticIssues.map( function (issue) {
     <td>${issue.body}</td>
     <td>${issue.created_at}</td>
     <td>${issue.state}</td>`
-  })
-  .join('')
+  }).join('')
 
 
 
