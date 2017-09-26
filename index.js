@@ -9000,3 +9000,40 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+const issuesWithUpdatedApiUrl = issues.map(issue => {
+  if (issue.url.includes('api.github.com')) {
+    return Object.assign({}, issue, {
+      url: 'api-v2.github.com'
+    })
+  }
+})
+
+const commentCountAcrossIssues = issues.reduce((totalAmount, issue) => {
+  return totalAmount + issue.comments_count
+}, 0)
+
+const openIssues = issues.reduce((openIssues, issue) => {
+  if (issue.state === 'open') {
+    return [...openIssues, issue]
+  }
+
+  return openIssues
+}, [])
+
+const nonAutomaticIssues = issues.reduce((body, issue) => {
+  if (issue.body !== 'This pull request has been automatically created by learn.co.') {
+    return [...body, issue]
+  }
+
+  return body
+}, [] )
+
+const $tbody = document.getElementById('results');
+$tbody.innerHTML = nonAutomaticIssues.map(issue =>
+  `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+  </tr>`
+).join('');
