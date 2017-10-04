@@ -9000,3 +9000,79 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+let issuesWithUpdatedApiUrl = issues.map(function (issue) {
+  return Object.assign({}, issue, {
+    url: issue.url.replace("api.github.com","api-v2.github.com")
+  });
+});
+
+let commentCountArray = issues.map(function (issue) {
+  return issue.comments_count;
+});
+
+function commentCounter(totalAmount, location) {
+  return totalAmount + location;
+}
+
+let commentCountAcrossIssues = commentCountArray.reduce(commentCounter, 0);
+
+let openIssues = [];
+let openIssuesMapper = issues.map(function (issue) {
+  if (issue.state === 'open') {
+    openIssues.push(issue);
+  }
+  return openIssues;
+});
+
+
+let nonAutomaticIssues = [];
+let nonAutomaticIssuesMapper = issues.map(function (issue) {
+  if (!issue.body.includes('automatically created by learn.co')) {
+    nonAutomaticIssues.push(issue);
+  }
+  return nonAutomaticIssues;
+});
+
+/*
+var tableRef = document.getElementById('results').getElementsByTagName('tbody')[0];
+
+// Insert a row in the table at the last row
+var newRow   = tableRef.insertRow();
+
+// Insert a cell in the row at index 0
+var newCell  = newRow.insertCell(0);
+
+// Append a text node to the cell
+var newText  = document.createTextNode('New row');
+newCell.appendChild(newText);
+
+function makeTable() {
+  var x = document.getElementsByTagName("tbody")[0];
+  for (i = 0; i < 651; i++) {
+
+    var row = document.createElement("tr");
+
+    var cell = document.createElement("td");
+    var cellText = document.createTextNode("body");
+    cell1.appendChild(cellText);
+    row.appendChild(cell);
+
+    x.appendChild(row);
+  }
+}
+*/
+
+function createTable() {
+  var table = "";
+  for (var i = 0; i < nonAutomaticIssues.length; i++) {
+    table += "<tr><td> test </tr></td>";
+  }
+  return table;
+}
+
+
+var myTable = "<tr><td> test </tr></td>";
+myTable += "<tr><td> test </tr></td>";
+var bigTable = createTable();
+document.getElementById('results').innerHTML = bigTable;
