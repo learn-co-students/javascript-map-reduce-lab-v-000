@@ -1,3 +1,8 @@
+/* 
+1. Declare a function named
+2. Function accepts parameter named, whose value is 
+3. When call function, return
+*/
 const issues = [
   {
     "body": "Instructions say GET /team and POST /newteam. Rspec wants GET/newteam and POST/team.",
@@ -9001,39 +9006,67 @@ const issues = [
   }
 ];
 
-const issuesWithUpdatedApiUrl = issues
-  .map(issue => Object.assign({}, issue, {
+/* 
+1. Create a variable called issuesWithUpdatedApiUrl
+2. The value of this variable is the mapped issues array, replacing any mention of 'api.github.com' (in issue.url) with 'api-v2.github.com'
+3. Make sure you don't modify the original objects in the issues array
+*/
+const issuesWithUpdatedApiUrl = issues.map(issue => Object.assign({}, issue, {
     url: issue.url.replace('api.github.com', 'api-v2.github.com')
   }));
 
-const commentCountAcrossIssues = issues
-  .map(issue => issue.comments_count)
+console.log(issuesWithUpdatedApiUrl);
+
+/* 
+1. To get a quick overview of our community's activity, let's sum up all comments of every issue.
+2. The result should be in a variable called commentCountAcrossIssues
+3. First, map the issues array and pull out the comments_count.
+4. Next, reduce the array of comment counts and add them all together.
+*/
+const commentCountAcrossIssues = issues.map(issue => issue.comments_count)
   .reduce((total, count) => total + count, 0);
 
+console.log(commentCountAcrossIssues);
+
+/* 
+1. Declare a function named openIssues.
+2. When call function, return new array should only contain issues where issue.state is set to 'open'.
+*/
 const openIssues = issues.reduce((openIssues, issue) => {
   if (issue.state === 'open') {
-    return [...openIssues, issue];
+    return [...openIssues, issue]; //new array
   }
-
   return openIssues;
 }, []);
 
+console.log(openIssues);
+
+/* 
+1. Declare a function named nonAutomaticIssues.
+2. When call function, return new array should only contain issues that are not automatically created.
+*/
 const nonAutomaticIssues = issues.reduce((totalIssues, issue) => {
   const isAutomaticIssue = issue.body.includes('automatically created by learn.co');
-
   if (!isAutomaticIssue) {
     totalIssues.push(issue);
   }
-
   return totalIssues;
 }, []);
 
+console.log(nonAutomaticIssues);
+
+/* 
+1. Use the DOM API to set the HTML of the table body to a list of table rows that have three columns: the issue body, the date and the state of the issue (open or closed)
+2. Create your HTML markup for all the rows, use .map()
+3. the innerHTML property expects a string, so don't forget to turn your array into one big string by using .join()
+*/
 const $tbody = document.getElementById('results');
-$tbody.innerHTML = nonAutomaticIssues
-  .map(issue => `<tr>
+$tbody.innerHTML = nonAutomaticIssues.map(issue => `<tr>
     <td>${issue.body}</td>
     <td>${issue.created_at}</td>
     <td>${issue.state}</td>
     </tr>`
   )
   .join('');
+
+console.log($tbody);
