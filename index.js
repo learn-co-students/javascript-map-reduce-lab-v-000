@@ -1,3 +1,5 @@
+const ROBOTZ = "This pull request has been automatically created by learn.co."
+
 const issues = [
   {
     "body": "Instructions say GET /team and POST /newteam. Rspec wants GET/newteam and POST/team.",
@@ -9000,3 +9002,66 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+function addURL() {
+  return issues.map(issue => {
+    let newIssue = Object.assign({}, issue)
+    newIssue.url = 'api-v2.github.com'
+    return newIssue
+  })
+}
+
+function commentCounter(){
+  let comments = issues.map(issue =>
+    issue.comments_count
+  )
+  return comments.reduce((total, value) =>
+    total + value
+  )
+}
+
+function isOpen(collection, issue){
+  if(issue.state === "open"){
+    collection.push(issue)
+    return collection
+  }
+  else{
+    return collection
+  }
+}
+
+function openIssuesOnly(){
+  return issues.reduce(isOpen, [])
+}
+
+function isHuman(collection, issue){
+  if(issue.body === ROBOTZ){
+    return collection
+  }
+  else{
+    collection.push(issue)
+    return collection
+  }
+}
+
+function humansOnly(){
+  return issues.reduce(isHuman, [])
+}
+
+let issuesWithUpdatedApiUrl = addURL()
+
+let commentCountAcrossIssues = commentCounter()
+
+let openIssues = openIssuesOnly()
+
+let nonAutomaticIssues = humansOnly()
+
+function addTable(){
+  let rows = nonAutomaticIssues.map(issue =>{
+    return '<tr>' + '<th>'+ issue.body + '</th>' + '<th>' + issue.created_at + '</th>' + '<th>' + issue.state + '</th>' + '</tr>'
+  })
+  rows = rows.join("")
+  document.getElementById("results").innerHTML = rows
+}
+
+addEventListener("DOMContentLoaded", addTable())
