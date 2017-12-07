@@ -9000,3 +9000,52 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+const issuesWithUpdatedApiUrl = issues.map( function(issue){
+  return Object.assign({}, issue, {
+      url: issue.url.replace("api.github.com", "api-v2.github.com")
+  });
+});
+
+const commentCountAcrossIssuesMap = issues.map( function(issue){
+  return issue.comments_count
+});
+
+const commentCountAcrossIssues = commentCountAcrossIssuesMap.reduce( function(totalAmount,newAmount){
+  return totalAmount + newAmount;
+}, 0);
+
+console.log(commentCountAcrossIssues);
+
+const openIssues = issues.filter( function(issue){
+  if (issue.state == "open") {
+    return issue;
+  }
+}).map(function(obj) { return obj; });
+
+const nonAutomaticIssues = issues.filter( function(issue){
+  if (!issue.body.includes("automatically created by learn.co")) {
+    return issue;
+  }
+}).map(function(obj) { return obj; });
+
+window.onload=function() {
+  var tbody = document.getElementById("results");
+    nonAutomaticIssues.map(function(issue){
+      var tr = document.createElement("tr");
+      var td_body = document.createElement("td");
+      var td_state = document.createElement("td");
+      var td_date = document.createElement("td");
+      var txt_body = document.createTextNode(issue.body);
+      var txt_state = document.createTextNode(issue.state);
+      var txt_date = document.createTextNode(issue.created_at);
+      td_body.appendChild(txt_body);
+      td_state.appendChild(txt_state);
+      td_date.appendChild(txt_date);
+      tr.appendChild(td_body);
+      tr.appendChild(td_date);
+      tr.appendChild(td_state);
+      tbody.appendChild(tr)
+    });
+}
