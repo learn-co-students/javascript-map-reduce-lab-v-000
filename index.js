@@ -9001,33 +9001,42 @@ const issues = [
   }
 ];
 
-var issuesWithUpdatedApiUrl = issues.map(function(issue) {
+const issuesWithUpdatedApiUrl = issues.map(issue => {
+  let newURL = issue.url.replace('api.github.com', 'api-v2.github.com');
+
   return Object.assign({}, issue, {
-    url: issue.url.replace('api.github.com', 'api-v2.github.com')
-  });
+    url: newURL
+  })
 });
 
-var commentCountAcrossIssues = issues.map((issue) => issue.comments_count).reduce((totalAmount, issueNum) => totalAmount += issueNum, 0);
+const commentCountAcrossIssues = issues.reduce(
+  (prev, current) => prev += current.comments_count,
+0);
 
-var openIssues = issues.map(function(issue) {
-  if(issue.state === 'open') {
-    Object.assign({}, issue);
-  }
-}).filter((element) => element !== undefined);
+const openIssues = issues.reduce(
+  (array, issue) => {
+    if ( issue.state === "open" ) {
+      array.push(issue);
+    }
+    return array;
+  },
+[]);
 
-var nonAutomaticIssues = issues.reduce(function(human, issue) {
-  if(issue.body !== "This pull request has been automatically created by learn.co.") {
-    human.push(issue);
-  }
-  return human;
-}, []);
+const nonAutomaticIssues = issues.reduce(
+  (array, issue) => {
+    if ( issue.body !== 'This pull request has been automatically created by learn.co.' ) {
+      array.push(issue);
+    }
+    return array;
+  },
+[])
 
-var $tbody = document.getElementById('results');
-
-$tbody.innerHTML = nonAutomaticIssues.map(issue =>
-  `<tr>
-    <td>${issue.body}</td>
-    <td>${issue.created_at}</td>
-    <td>${issue.state}</td>
-  </tr>`
-);
+document.getElementById('results').innerHTML += nonAutomaticIssues.map(
+    issue => {
+      return `<tr>
+      <td>${issue.body}</td>
+      <td>${issue.created_at}</td>
+      <td>${issue.state}</td>
+    </tr>`
+    }
+  ).join('');
