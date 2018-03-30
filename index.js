@@ -9000,3 +9000,53 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+var issuesWithUpdatedApiUrl = issues.map((issue) => {
+  return Object.assign({}, issue, {url: issue.url.replace("api.github.com", "api-v2.github.com")});
+});
+
+var commentCountAcrossIssues = issues.map((issue) => issue.comments_count).reduce((totalComments, commentCount) => totalComments + commentCount, 0);
+
+var openIssues = issues.reduce((openIssuesArray, issue) => {
+  if (issue.state == "open")
+  {
+    openIssuesArray.push(issue)
+  }
+  return openIssuesArray;
+}, []);
+
+var nonAutomaticIssues = issues.reduce((nonAutoIssues, issue) => {
+  if(issue.body != "This pull request has been automatically created by learn.co.")
+  {
+    nonAutoIssues.push(issue);
+  }
+  return nonAutoIssues;
+}, []);
+
+var tableBody = document.getElementById("results");
+
+function appendRow(body, issue)
+{
+  let row = document.createElement("tr");
+  let cols = [];
+  for (var key in issue)
+  {
+    if (key === 'body' || key === 'created_at' || key === 'state')
+    {
+      cols.push(issue[key]);
+    }
+  }
+
+  for (var i = 0; i < cols.length; i++)
+  {
+    let tempCol = document.createElement("td");
+    tempCol.innerText = cols[i];
+    row.appendChild(tempCol);
+  }
+
+  body.appendChild(row);
+
+  return body;
+}
+
+var newTableBody = nonAutomaticIssues.reduce(appendRow,tableBody);
