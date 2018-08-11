@@ -9000,3 +9000,44 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+var changeUrl = (githubIssue) => {
+  let result = Object.assign({}, githubIssue, { url: githubIssue.url.replace('api.github.com', 'api-v2.github.com') });
+      // result.url = 'https://api-v2.github.' + result.url.split('.').pop();
+  return result;
+};
+
+var issuesWithUpdatedApiUrl = issues.map(changeUrl);
+
+var accumulatorCallback = (accumulator, currentValue) => {return accumulator + currentValue.comments_count};
+
+var commentCountAcrossIssues = issues.reduce(accumulatorCallback, 0);
+
+var filterOpenIssues = (result, githubIssue) => {
+  if (githubIssue.state == 'open') {
+    result.push(githubIssue);    
+  }
+  return result;
+};
+
+var openIssues = issues.reduce(filterOpenIssues, []);
+
+var filterAutomaticIssues = (result, githubIssue) => {
+  if (!githubIssue.body.includes('learn.co')) {
+    result.push(githubIssue);
+  }  
+  return result;
+}
+
+var nonAutomaticIssues = issues.reduce(filterAutomaticIssues, []);
+
+var buildHTML = (githubIssue) => {
+  var html = '<tr>';
+    html += '<td>'+githubIssue.body+'</td>';
+    html += '<td>'+githubIssue.created_at+'</td>';
+    html += '<td>'+githubIssue.state+'</td>';
+    html += '</tr>';
+  return html;
+}
+
+document.getElementById('results').innerHTML = nonAutomaticIssues.map(buildHTML, []).join('');
